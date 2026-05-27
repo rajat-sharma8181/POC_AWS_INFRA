@@ -65,22 +65,3 @@ variable "node_max_size" {
   type        = number
   default     = 3
 }
-
-# ── Bastion ───────────────────────────────────────────────────────
-variable "bastion_instance_type" {
-  description = "EC2 instance type for bastion host"
-  type        = string
-  default     = "t3.micro"
-}
-
-variable "bastion_public_key" {
-  description = "SSH public key content for bastion host access (e.g. contents of ~/.ssh/id_rsa.pub)"
-  type        = string
-  sensitive   = true
-}
-
-variable "ssh_allowed_cidrs" {
-  description = "CIDR blocks allowed to SSH into the bastion host"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
-}
