@@ -7,10 +7,10 @@
 # ============================================================
 terraform {
   backend "s3" {
-    bucket         = "REPLACE-WITH-YOUR-TERRAFORM-STATE-BUCKET"
+    bucket         = "daas-plt"
     key            = "eks/terraform.tfstate"
     region         = "ap-south-1"
     encrypt        = true
-    dynamodb_table = "REPLACE-WITH-YOUR-DYNAMODB-LOCK-TABLE"
+    dynamodb_table = "daas-plt-table"
   }
 }
