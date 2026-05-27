@@ -27,6 +27,8 @@ env:
   TF_WORKING_DIR: "./terraform"
   # Tells Terraform not to prompt for confirmation
   TF_INPUT: "false"
+  # Bastion SSH public key — store the full public key string as a GitHub secret
+  TF_VAR_bastion_public_key: ${{ secrets.BASTION_PUBLIC_KEY }}
 
 # ── Job 1: Format, Validate, Plan (runs on every push/PR) ─────────
 jobs:

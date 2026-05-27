@@ -43,3 +43,13 @@ output "kubectl_config_command" {
   description = "Run this command to configure kubectl after deploy"
   value       = "aws eks update-kubeconfig --region ${var.aws_region} --name ${aws_eks_cluster.main.name}"
 }
+
+output "bastion_public_ip" {
+  description = "Bastion host public IP"
+  value       = aws_eip.bastion.public_ip
+}
+
+output "bastion_ssh_command" {
+  description = "SSH command to connect to bastion"
+  value       = "ssh -i <your-private-key> ubuntu@${aws_eip.bastion.public_ip}"
+}
