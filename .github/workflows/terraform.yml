@@ -161,6 +161,13 @@ jobs:
             terraform import 'aws_cloudwatch_log_group.eks_cluster' \
               '/aws/eks/eks-demo-dev/cluster'
 
+      - name: Import pre-existing CloudWatch observability addon
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: |
+          terraform state show 'aws_eks_addon.cloudwatch_observability' >/dev/null 2>&1 || \
+            terraform import 'aws_eks_addon.cloudwatch_observability' \
+              'eks-demo-dev:amazon-cloudwatch-observability'
+
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform apply -auto-approve tfplan
