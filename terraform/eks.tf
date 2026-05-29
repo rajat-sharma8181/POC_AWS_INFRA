@@ -49,10 +49,13 @@ resource "aws_eks_cluster" "main" {
     security_group_ids      = [aws_security_group.eks_cluster.id]
   }
 
-  # Keep only essential logs to control CloudWatch costs
-  enabled_cluster_log_types = ["api", "audit"]
+  # api + audit retained from prior config; controllerManager + scheduler added for monitoring
+  enabled_cluster_log_types = ["api", "audit", "controllerManager", "scheduler"]
 
-  depends_on = [aws_iam_role_policy_attachment.eks_cluster_policy]
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_policy,
+    aws_cloudwatch_log_group.eks_cluster,
+  ]
 }
 
 # ── Node Group IAM Role ───────────────────────────────────────────

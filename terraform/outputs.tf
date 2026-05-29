@@ -43,3 +43,13 @@ output "kubectl_config_command" {
   description = "Run this command to configure kubectl after deploy"
   value       = "aws eks update-kubeconfig --region ${var.aws_region} --name ${aws_eks_cluster.main.name}"
 }
+
+output "cloudwatch_agent_role_arn" {
+  description = "IRSA role ARN for the CloudWatch agent"
+  value       = aws_iam_role.cloudwatch_agent.arn
+}
+
+output "cloudwatch_addon_version" {
+  description = "Resolved version of the amazon-cloudwatch-observability EKS add-on"
+  value       = aws_eks_addon.cloudwatch_observability.addon_version
+}
