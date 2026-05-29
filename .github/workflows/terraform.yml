@@ -69,6 +69,14 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform validate -no-color
 
+      # ── Import AWS-managed log group created before Terraform owned it ──
+      - name: Import pre-existing EKS log group
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: |
+          terraform state show 'aws_cloudwatch_log_group.eks_cluster' >/dev/null 2>&1 || \
+            terraform import 'aws_cloudwatch_log_group.eks_cluster' \
+              '/aws/eks/eks-demo-dev/cluster'
+
       # ── Plan (always runs; output shown in logs) ───────────────
       - name: Terraform Plan
         id: plan
@@ -145,6 +153,13 @@ jobs:
       - name: Terraform Init
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform init
+
+      - name: Import pre-existing EKS log group
+        working-directory: ${{ env.TF_WORKING_DIR }}
+        run: |
+          terraform state show 'aws_cloudwatch_log_group.eks_cluster' >/dev/null 2>&1 || \
+            terraform import 'aws_cloudwatch_log_group.eks_cluster' \
+              '/aws/eks/eks-demo-dev/cluster'
 
       - name: Terraform Apply
         working-directory: ${{ env.TF_WORKING_DIR }}
