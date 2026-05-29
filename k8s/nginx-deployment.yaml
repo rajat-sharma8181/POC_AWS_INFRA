@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nginx
   namespace: default
   labels:
     app: nginx
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -14,6 +14,9 @@ spec:
     metadata:
       labels:
         app: nginx
+      annotations:
+        # Opt this pod into Container Insights metric collection
+        containerInsights: enabled
     spec:
       containers:
         - name: nginx
