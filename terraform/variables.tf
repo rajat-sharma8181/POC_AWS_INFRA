@@ -65,3 +65,16 @@ variable "node_max_size" {
   type        = number
   default     = 3
 }
+
+# ── Monitoring ────────────────────────────────────────────────────
+variable "control_plane_log_retention_days" {
+  description = "Retention in days for the EKS control plane CloudWatch log group"
+  type        = number
+  default     = 7
+}
+
+variable "container_insights_log_retention_days" {
+  description = "Retention in days for the Container Insights CloudWatch log group"
+  type        = number
+  default     = 3
+}
