@@ -33,6 +33,10 @@ jobs:
   terraform-ci:
     name: "Terraform CI — fmt / validate / plan"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
 
     steps:
       - name: Checkout repository
