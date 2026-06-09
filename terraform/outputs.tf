@@ -53,3 +53,8 @@ output "cloudwatch_addon_version" {
   description = "Resolved version of the amazon-cloudwatch-observability EKS add-on"
   value       = aws_eks_addon.cloudwatch_observability.addon_version
 }
+
+output "ebs_csi_role_arn" {
+  description = "IRSA role ARN for the EBS CSI driver"
+  value       = aws_iam_role.ebs_csi.arn
+}
