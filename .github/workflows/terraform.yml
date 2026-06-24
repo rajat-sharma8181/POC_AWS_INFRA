@@ -78,22 +78,6 @@ jobs:
         working-directory: ${{ env.TF_WORKING_DIR }}
         run: terraform validate -no-color
 
-      # ── Import resources that exist in AWS but not yet in state ─────
-      # Both steps are idempotent: skip silently if already in state.
-      - name: Import pre-existing EKS log group
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: |
-          terraform state show 'aws_cloudwatch_log_group.eks_cluster' >/dev/null 2>&1 || \
-            terraform import 'aws_cloudwatch_log_group.eks_cluster' \
-              '/aws/eks/eks-demo-dev/cluster'
-
-      - name: Import pre-existing CloudWatch observability addon
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: |
-          terraform state show 'aws_eks_addon.cloudwatch_observability' >/dev/null 2>&1 || \
-            terraform import 'aws_eks_addon.cloudwatch_observability' \
-              'eks-demo-dev:amazon-cloudwatch-observability'
-
       # ── Plan (always runs; output shown in logs) ───────────────
       - name: Terraform Plan
         id: plan
