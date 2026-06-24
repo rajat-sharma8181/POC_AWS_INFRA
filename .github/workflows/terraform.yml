@@ -18,7 +18,7 @@ on:
         required: true
         default: "plan"
         type: choice
-        options: [plan, apply, destroy]
+        options: [plan, apply]
 
 # ── Prevent concurrent state-mutating runs on the same branch ─────
 # cancel-in-progress: false queues the next run rather than killing
@@ -39,9 +39,6 @@ jobs:
   terraform-ci:
     name: "Terraform CI — fmt / validate / plan"
     runs-on: ubuntu-latest
-    # Skip the plan entirely when a destroy is manually dispatched so
-    # it doesn't race against the destroy job tearing down resources.
-    if: "!(github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'destroy')"
     permissions:
       contents: read
       pull-requests: write
@@ -167,35 +164,3 @@ jobs:
           terraform output -raw kubectl_config_command
           echo ""
           echo "════════════════════════════════════════════"
-
-  # ── Job 3: Destroy (only via manual trigger) ─────────────────────
-  # Runs independently of terraform-ci so plan doesn't race destroy.
-  terraform-destroy:
-    name: "Terraform Destroy"
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'destroy'
-    environment: production
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Terraform ${{ env.TF_VERSION }}
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ env.TF_VERSION }}
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Terraform Init
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform init
-
-      - name: Terraform Destroy
-        working-directory: ${{ env.TF_WORKING_DIR }}
-        run: terraform destroy -auto-approve
