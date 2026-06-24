@@ -7,9 +7,9 @@
 # ============================================================
 terraform {
   backend "s3" {
-    bucket         = "poc-demo-test-rs"
-    key            = "eks/terraform.tfstate"
-    region         = "ap-south-1"
-    encrypt        = true
+    bucket  = "poc-demo-test-rs"
+    key     = "eks/terraform.tfstate"
+    region  = "ap-south-1"
+    encrypt = true
   }
 }
