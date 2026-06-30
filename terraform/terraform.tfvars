@@ -1,4 +1,4 @@
-aws_region   = "ap-south-1"
+aws_region   = "ap-southeast-1"
 project_name = "eks-poc-demo"
 environment  = "dev"
 
