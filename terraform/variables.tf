@@ -35,6 +35,18 @@ variable "private_subnet_cidrs" {
   default     = ["10.0.10.0/24", "10.0.20.0/24"]
 }
 
+# ----- ECR Registries -------------
+
+variable "backend_ecr" {
+  type = string
+  default = "wanderlust-backend-beta"
+}
+
+variable "frontend_ecr" {
+  type = string
+  default = "wanderlust-frontend-beta"
+}
+
 # ── EKS ──────────────────────────────────────────────────────────
 variable "eks_cluster_version" {
   description = "Kubernetes version for the EKS cluster"
