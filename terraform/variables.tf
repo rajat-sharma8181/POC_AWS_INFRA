@@ -38,12 +38,12 @@ variable "private_subnet_cidrs" {
 # ----- ECR Registries -------------
 
 variable "backend_ecr" {
-  type = string
+  type    = string
   default = "wanderlust-backend-beta"
 }
 
 variable "frontend_ecr" {
-  type = string
+  type    = string
   default = "wanderlust-frontend-beta"
 }
 
